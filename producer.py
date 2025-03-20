@@ -5,7 +5,7 @@ import os
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
-channel.queue_declare(queue='test_queue')
+channel.queue_declare(queue='test_queue', durable=True)
 def send_message():
     message = entry.get()
     if message:

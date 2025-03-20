@@ -8,13 +8,15 @@ import time
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host=os.environ.get("RABBITMQ_HOST", "localhost"))
 )
+
 channel = connection.channel()
+channel.queue_declare(queue="test_queue", durable=True)
 
 stop_event = threading.Event()
 
 
 def listen_for_messages():
-    channel.queue_declare(queue="test_queue")
+    
     for _, _, body in channel.consume(
         "test_queue", inactivity_timeout=1
     ):
